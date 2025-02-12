@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
-import { FlatList, ScrollView } from "react-native-gesture-handler";
+import { FlatList, Pressable, ScrollView } from "react-native-gesture-handler";
+import { Link } from "expo-router";
+import "../global.css"; 
 
 const styles = StyleSheet.create({
   listItem:{
@@ -33,7 +35,7 @@ export interface SightingProps{
 
 function FormatData(props:SightingProps){
   return (
-    <View style={styles.listItem}>
+    <View style={{ borderWidth:1, borderColor:"black", padding:10, width:400 }}>
       <Text>- {props.sighting.id}</Text>
       <Text>- {props.sighting.witnessName}</Text>
       <Text>- {props.sighting.location.latitude}</Text>
@@ -65,17 +67,22 @@ export default function Index() {
       style={{
         flex: 1,
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "flex-start",
+        padding:20
       }}
-    >
-  <ScrollView>
-      <FlatList
-        data={sightings}
-        renderItem={({ item }) => (
-          <FormatData sighting={item} />
-        )}
-      />
-    </ScrollView>
+    > 
+    
+        <FlatList
+          className="self-center"
+          data={sightings}
+          renderItem={({ item }) => (
+            <Link href={{pathname:"/detail", params: {id:item.id.toString()}}} asChild>
+              <Pressable>
+                <FormatData sighting={item} />
+              </Pressable>
+            </Link>
+          )}
+        />
     </View>
   );
 }
