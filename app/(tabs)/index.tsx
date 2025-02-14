@@ -1,19 +1,11 @@
-import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { FlatList, GestureHandlerRootView } from "react-native-gesture-handler";
 import "../../global.css"; 
-import { Sighting } from "@/types";
 import SightingDetail from "@/components/SightingDetail";
-import { getSightings } from "@/functions/Sightings";
+import { useSightings } from "@/Providers/Sightings";
 
 export default function Index() {
-  const[sightings, setSightings] = useState<Sighting[]>([]);
-
-  useEffect(() =>{       
-    getSightings().then((sightings) => {
-      setSightings(sightings);
-    });
-  }, [])
+  const { sightings } = useSightings();
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
