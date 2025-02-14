@@ -41,7 +41,7 @@ export default function Map() {
         initialRegion={{
           latitude: 50,
           longitude: 4,
-          latitudeDelta: 10,
+          latitudeDelta: 20,
           longitudeDelta: 10,
         }}
       >
