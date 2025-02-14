@@ -3,7 +3,7 @@
 import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from 'react-leaflet'
 import "leaflet/dist/leaflet.css" 
 import { Text, View } from 'react-native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import L from 'leaflet';
 
 interface PointOfInterest {
@@ -49,6 +49,7 @@ const POINTS_OF_INTEREST : PointOfInterest[] = [
 interface LocationHandlerProps {
     addMarker: (lat: number, lng: number) => void;
 }
+
 const LocationHandler = ({addMarker} : LocationHandlerProps) => {
     const map = useMapEvents({
         dragend: () => {
@@ -63,7 +64,6 @@ const LocationHandler = ({addMarker} : LocationHandlerProps) => {
 }
 
 export default function Map() {
-
     const [pointsOfInterest, setPointsOfInterest] = useState<PointOfInterest[]>(POINTS_OF_INTEREST);
 
     const iconX = L.icon({
@@ -88,15 +88,17 @@ export default function Map() {
             <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
+            
             <LocationHandler addMarker={(lat, lng) => addPointOfInterest(lat,lng)} />
+
             {pointsOfInterest.map((point, index) => (
-            <Marker key={index} position={[point.location.latitude, point.location.longitude]} icon={iconX}>
-                <Popup >
-                <View style={{backgroundColor: 'white', padding: 10, width: 100}}>
-                    <Text>{point.name}</Text>
-                </View>
-                </Popup>
-            </Marker>
+                <Marker key={index} position={[point.location.latitude, point.location.longitude]} icon={iconX}>
+                    <Popup >
+                        <div style={{backgroundColor: 'white', padding: 10, width: 100}}>
+                            <p>{point.name}</p>
+                        </div>
+                    </Popup>
+                </Marker>
             ))}
     
         </MapContainer>
