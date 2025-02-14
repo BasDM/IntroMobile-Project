@@ -1,39 +1,8 @@
-import MapView, { Marker, Callout } from 'react-native-maps';
-import { View, Text, StyleSheet } from 'react-native';
-import { useEffect } from 'react';
+import MapView, { Marker } from 'react-native-maps';
+import { View, StyleSheet } from 'react-native';
+import { Sighting } from '@/types';
 
-const POINTS_OF_INTEREST = [
-  {
-    name: "AP Hogeschool",
-    location: {
-      latitude: 51.2243,
-      longitude: 4.3852
-    },
-  },
-  {
-    name: "London Bridge",
-    location: {
-      latitude: 51.5055,
-      longitude: -0.0754
-    }
-  },
-  {
-    name: "Eiffel Tower",
-    location: {
-      latitude: 48.8584,
-      longitude: 2.2945
-    }
-  },
-  {
-    name: "Statue of Liberty",
-    location: {
-      latitude: 40.6892,
-      longitude: -74.0445
-    }
-  }
-];
-
-export default function Map() {
+export default function Map({ markers } : { markers: Sighting[] }) {
   return (
     <View style={styles.container}>
       <MapView
@@ -45,14 +14,16 @@ export default function Map() {
           longitudeDelta: 10,
         }}
       >
-        {POINTS_OF_INTEREST.map((marker, index) => (
-          <Marker
-            key={index}
-            coordinate={marker.location}
-            title={marker.name}
-            description={marker.name}
-          />
-        ))}
+        { markers && 
+          markers.map((marker, index) => (
+            <Marker
+              key={index}
+              coordinate={marker.location}
+              title={"Sighting: " + marker.id}
+              description={marker.description}
+            />
+          ))
+        }
       </MapView>
     </View>
   );

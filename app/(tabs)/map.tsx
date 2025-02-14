@@ -4,8 +4,19 @@ import { Platform } from "react-native";
 // Note: this refers to an empty component to suppress the error. 
 // The actual component is decided with an alias resolution in metro.config.js
 import Map from "../../components/Map";
+import { Sighting } from "@/types";
+import { useEffect, useState } from "react";
+import { getSightings } from "@/functions/Sightings";
 
 export default function MapPage() {
+  const [markers, setMarkers] = useState<Sighting[]>([]);
+
+  useEffect(() => {
+    getSightings().then((sightings) => {
+      setMarkers(sightings);
+    });
+  }, []);
+
   return (
     <View
       style={{
@@ -14,7 +25,7 @@ export default function MapPage() {
         alignItems: "center",
       }}
     >
-      <Map></Map>
+      <Map markers={markers}></Map>
     </View>
   );
 }

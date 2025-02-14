@@ -1,21 +1,18 @@
 import { useEffect, useState } from "react";
-import { Button, View } from "react-native";
+import { View } from "react-native";
 import { FlatList, GestureHandlerRootView } from "react-native-gesture-handler";
 import "../../global.css"; 
 import { Sighting } from "@/types";
 import SightingDetail from "@/components/SightingDetail";
+import { getSightings } from "@/functions/Sightings";
 
 export default function Index() {
-  const[sightings,setSightings] = useState<Sighting[]>([]);
+  const[sightings, setSightings] = useState<Sighting[]>([]);
 
-  async function loadSightings(){
-    const response = await fetch("https://sampleapis.assimilate.be/ufo/sightings");
-    const sightings:Sighting[] = await response.json();
-    setSightings(sightings);
-  }
-
-  useEffect(() =>{
-    loadSightings();
+  useEffect(() =>{       
+    getSightings().then((sightings) => {
+      setSightings(sightings);
+    });
   }, [])
 
   return (
