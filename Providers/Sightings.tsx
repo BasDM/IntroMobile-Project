@@ -62,7 +62,14 @@ export const SightingsProvider = ({ children } : { children: ReactElement }) => 
 
     // Get sightings only initially
     useEffect(() => {
-        initSightings()
+        AsyncStorage.getItem('@app:sightings')
+            .then((storedData) => {
+                if (storedData) {
+                    setSightings(JSON.parse(storedData));
+                } else {
+                    initSightings();
+                }
+            })
     }, []);
 
     return (
