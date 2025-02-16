@@ -33,17 +33,17 @@ export default function Camera({ onPictureTaken, onClose }: { onPictureTaken: (p
         <View className='flex-1 '>
             <CameraView
                 facing={facing === "back" ? "back" : "front"}
-                className="flex-1"
+                style={{ flex: 1 }}
                 ref={cameraRef}
             >
-                <View className="flex-1 flex flex-col">
-                    <View className="absolute top-3 left-3">
-                        <TouchableOpacity onPress={onClose} className="bg-white p-2.5">
+                <View style={{ flex: 1 }}>
+                    <View style={{ position: 'absolute', top: 12, left: 12 }}>
+                        <TouchableOpacity onPress={onClose} style={{ backgroundColor: 'white', padding: 10 }}>
                             <Text>Close</Text>
                         </TouchableOpacity>
                     </View>
-                    <View className="flex-1 flex-row justify-center items-end">
-                        <TouchableOpacity onPress={flipCamera} className="bg-white p-2.5 m-3 roundeed">
+                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end' }}>
+                        <TouchableOpacity onPress={flipCamera} style={{ backgroundColor: 'white', padding: 10, margin: 12 }}>
                             <Text>Flip Camera</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
@@ -53,10 +53,10 @@ export default function Camera({ onPictureTaken, onClose }: { onPictureTaken: (p
                                     if (picture) onPictureTaken(picture.uri);
                                 }
                             }}
-                            className="bg-white p-2.5 m-3 rounded"
+                            style={{ backgroundColor: 'white', padding: 10, margin: 12 }}
                         >
                             <Text>Take Picture</Text>
-                        </TouchableOpacity>                        
+                        </TouchableOpacity>
                     </View>
                 </View>
             </CameraView>
