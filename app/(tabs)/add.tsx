@@ -1,3 +1,4 @@
+import Camera from '@/components/Camera';
 import { useSightings } from '@/Providers/Sightings';
 import { Sighting } from '@/types';
 import React, { useState, FormEvent } from 'react';
@@ -20,6 +21,8 @@ export default function AddSighting() {
         witnessContact: '',
     });
     const [date, setDate] = useState('');
+
+    const [cameraOpen, setCameraOpen] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -59,6 +62,10 @@ export default function AddSighting() {
         });
     };
 
+    if (cameraOpen) {
+        return <Camera onPictureTaken={picture => { setSighting(prev => ({ ...prev, picture })); setCameraOpen(false); }} onClose={() => setCameraOpen(false)} />;
+    }
+
     return (
         <View className="p-4">
             <Text className="text-xl font-semibold mb-4">Add a New Sighting</Text>
@@ -84,13 +91,13 @@ export default function AddSighting() {
                     />
                 </View>
                 <View>
-                    <Text>Picture URL:</Text>
-                    <TextInput
-                        value={sighting.picture}
-                        onChangeText={text => handleChange({ target: { name: 'picture', value: text } } as any)}
-                        placeholder="Enter Picture URL"
-                        className="border border-gray-300 rounded p-2"
-                    />
+                    <Text>Picture:</Text>
+                    <Pressable
+                        onPress={() => setCameraOpen(true)}
+                        className="bg-blue-600 p-2 rounded items-center"
+                    >
+                        <Text className="text-white">Take Picture</Text>
+                    </Pressable>                    
                 </View>
                 <View>
                     <Text>Status:</Text>
