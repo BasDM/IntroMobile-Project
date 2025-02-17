@@ -1,8 +1,10 @@
 import Camera from '@/components/Camera';
+import { SaveImage } from '@/functions/Images';
 import { useSightings } from '@/Providers/Sightings';
 import { Sighting } from '@/types';
-import React, { useState, FormEvent } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { router } from 'expo-router';
+import React, { useState } from 'react';
+import { Platform, Pressable, Text, TextInput, View } from 'react-native';
 
 export default function AddSighting() {
     const { sightings, addSighting } = useSightings();
@@ -45,7 +47,20 @@ export default function AddSighting() {
         const lastId = sightings.reduce((acc, sighting) => sighting.id > acc ? sighting.id : acc, 0);
         sighting.id = lastId + 1;
 
-        addSighting(sighting);
+        if (Platform.OS === 'web') {
+            addSighting(sighting);
+        } else {
+            SaveImage(sighting.picture).then(uri => {
+                if (uri){
+                    sighting.picture = uri;
+                    addSighting(sighting);
+                }
+            });
+        }
+
+        // Route to details page with as previouse page the home page
+        router.replace({ pathname: '/' })
+        router.push({ pathname: '/detail', params: { id: sighting.id } });
 
         setSighting({
             id: 0,
