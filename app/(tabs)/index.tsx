@@ -3,6 +3,7 @@ import { FlatList, GestureHandlerRootView } from "react-native-gesture-handler";
 import "../../global.css"; 
 import SightingDetail from "@/components/SightingDetail";
 import { useSightings } from "@/Providers/Sightings";
+import SightingOverview from "@/components/SightingOverview";
 
 export default function Index() {
   const { sightings } = useSightings();
@@ -21,7 +22,7 @@ export default function Index() {
           className="self-center"
           data={sightings}
           renderItem={({ item }) => (
-        <SightingDetail sighting={item} />
+        <SightingOverview sighting={item} />
           )}
         />
       </View>
