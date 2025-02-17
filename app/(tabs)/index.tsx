@@ -1,7 +1,6 @@
 import { View } from "react-native";
 import { FlatList, GestureHandlerRootView } from "react-native-gesture-handler";
 import "../../global.css"; 
-import SightingDetail from "@/components/SightingDetail";
 import { useSightings } from "@/Providers/Sightings";
 import SightingOverview from "@/components/SightingOverview";
 
