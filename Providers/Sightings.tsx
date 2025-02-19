@@ -4,13 +4,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface SightingsContextType {
     sightings: Sighting[];
-    getSightings: () => Promise<Sighting[]>;
     addSighting: (sighting: Sighting) => Promise<Sighting>;
 }
 
 const SightingsContext = createContext<SightingsContextType>({
     sightings: [],
-    getSightings: async () => [],
     addSighting: async (sighting: Sighting) => sighting
 });
 
@@ -22,41 +20,28 @@ export const SightingsProvider = ({ children } : { children: ReactElement }) => 
         fetch("https://sampleapis.assimilate.be/ufo/sightings")
             .then((response) => response.json())
             .then(async (sightings) => {
-                try {
-                    await AsyncStorage.setItem(
-                        '@app:sightings',
-                        JSON.stringify(sightings)
-                    );
-                    setSightings(sightings);
-                } catch (e) { 
-                    console.error(e);
-                }
+                AsyncStorage.setItem(
+                    '@app:sightings',
+                    JSON.stringify(sightings)
+                )
+                    .then(() =>
+                        setSightings(sightings)
+                    )
+                    .catch((error) => console.error('Error setting sightings:', error));
             });
-    }
-
-    // Get sightings
-    async function getSightings(): Promise<Sighting[]> {
-        try {
-            const storedData = await AsyncStorage.getItem('@app:sightings');
-            return storedData ? JSON.parse(storedData) : [];
-        } catch (error) {
-            console.error('Error getting sightings:', error);
-            return [];
-        }
     }
 
     // Add sighting
     async function addSighting(sighting: Sighting): Promise<Sighting> {
-        try {
-            const storedData = await AsyncStorage.getItem('@app:sightings');
-            const sightingsList: Sighting[] = storedData ? JSON.parse(storedData) : [];
-            const updatedSightings = [...sightingsList, sighting];
-            
-            await AsyncStorage.setItem('@app:sightings', JSON.stringify(updatedSightings));
-            setSightings(updatedSightings);
-        } catch (error) {
-            console.error('Error adding sighting:', error);
-        }
+        AsyncStorage.getItem('@app:sightings')
+            .then((storedData) => {
+                const sightingsList: Sighting[] = storedData ? JSON.parse(storedData) : [];
+                const updatedSightings = [...sightingsList, sighting];
+                AsyncStorage.setItem('@app:sightings', JSON.stringify(updatedSightings))
+                    .then(() => setSightings(updatedSightings))
+                    .catch((error) => console.error('Error adding sighting:', error));
+            })
+            .catch((error) => console.error('Error adding sighting:', error));
         return sighting;
     }
 
@@ -72,8 +57,9 @@ export const SightingsProvider = ({ children } : { children: ReactElement }) => 
             })
     }, []);
 
+    // Add Context Provider for all children
     return (
-        <SightingsContext.Provider value={{ sightings, getSightings, addSighting }}>
+        <SightingsContext.Provider value={{ sightings, addSighting }}>
             {children}
         </SightingsContext.Provider>
     )

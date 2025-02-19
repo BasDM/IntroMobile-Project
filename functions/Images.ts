@@ -1,42 +1,41 @@
 import * as FileSystem from 'expo-file-system';
 
-export async function SaveImage(uri: string) {
+export async function SaveImage(uri: string): Promise<string> {
     const fileExtension = uri.split('.').pop();
 
-    let imageData: string;
-
-    try {
-        imageData = await FileSystem.readAsStringAsync(uri, { encoding: FileSystem.EncodingType.Base64 });
-    } catch (error) {
-        console.error('Failed to read the file content:', error);
-        return null;
-    }
-
-    const destination = `${FileSystem.documentDirectory}${new Date().getTime()}.${fileExtension}`;
-
-    try {
-        await FileSystem.writeAsStringAsync(
+    // Read the file content
+    return FileSystem.readAsStringAsync(uri, { encoding: FileSystem.EncodingType.Base64 })
+        .then((data) => {
+        const imageData: string = data;
+        const destination = `${FileSystem.documentDirectory}${new Date().getTime()}.${fileExtension}`;
+        
+        // Store the content of the image in the file system
+        return FileSystem.writeAsStringAsync(
             destination,
             imageData,
             { encoding: FileSystem.EncodingType.Base64 }
-        );
-        return destination;
-    } catch (error) {
-        console.error('Failed to write the file:', error);
-        return null;
-    }
+        )
+            .then(() => {
+                return destination;
+            })
+            .catch((error) => {
+                throw error;
+            });
+    })
+        .catch((error) => {
+            throw error;
+        });
 }
 
-export async function LoadImage(picture: string): Promise<String> {
-    try {
-        if (picture && picture.startsWith("file://")) {
-            const base64 = await FileSystem.readAsStringAsync(picture, { encoding: FileSystem.EncodingType.Base64 });
-            return `data:image/jpeg;base64,${base64}`
-        } else {
-            return picture
-        }
-    } catch (error) {
-        console.error("Error loading image:", error);
-        return ''
-    }
+export async function LoadImage(picture: string): Promise<string> {
+    // If the picture is not a file, return it (image from API)
+    if (picture && !picture.startsWith("file://")) return picture;
+
+    // Read the file content and return it
+    return FileSystem.readAsStringAsync(picture, { encoding: FileSystem.EncodingType.Base64 }).then((data) => {
+        return `data:image/jpeg;base64,${data}`;
+    })
+        .catch((error) => {            
+            throw error;
+        });
 }

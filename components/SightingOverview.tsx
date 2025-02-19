@@ -9,9 +9,11 @@ export default function SightingOverview(props: { sighting: Sighting }) {
   const [imageUri, setImageUri] = useState<string>(props.sighting.picture);
 
   useEffect(() => {
-    LoadImage(props.sighting.picture).then((uri) => {
-      setImageUri(String(uri));
-    });
+    LoadImage(props.sighting.picture)
+      .then((uri) => {
+        setImageUri(uri);
+      })
+      .catch(error => console.error('Error loading image:', error));
   }, [props.sighting.picture]);
 
   return (
