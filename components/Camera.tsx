@@ -1,6 +1,6 @@
-import { CameraView, CameraViewRef, useCameraPermissions } from 'expo-camera';
+import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useRef, useState } from 'react';
-import { Button, Text, TouchableOpacity, View } from 'react-native';
+import { Button, Platform, Text, TouchableOpacity, View } from 'react-native';
 
 export default function Camera({ onPictureTaken, onClose }: { onPictureTaken: (picture: string) => void, onClose: () => void }) {
     const [permission, requestPermission] = useCameraPermissions();
@@ -11,13 +11,13 @@ export default function Camera({ onPictureTaken, onClose }: { onPictureTaken: (p
         setFacing(facing === "back" ? "front" : "back");
     }
 
+    // Camera permissions are still loading.
     if (!permission) {
-        // Camera permissions are still loading.
         return <View />;
     }
 
+    // Camera permissions are not granted yet.
     if (!permission.granted) {
-        // Camera permissions are not granted yet.
         return (
         <View className='flex-1 justify-center items-center'>
             <Text className='p-4'>We need your permission to show the camera</Text>
@@ -29,31 +29,40 @@ export default function Camera({ onPictureTaken, onClose }: { onPictureTaken: (p
         );
     }
 
+    // Open camera
     return (
         <View className='flex-1 '>
             <CameraView
                 facing={facing === "back" ? "back" : "front"}
-                style={{ flex: 1 }}
+                className='flex-1'
                 ref={cameraRef}
             >
-                <View style={{ flex: 1 }}>
-                    <View style={{ position: 'absolute', top: 12, left: 12 }}>
-                        <TouchableOpacity onPress={onClose} style={{ backgroundColor: 'white', padding: 10 }}>
+                <View className='flex-1'>
+                    <View className='absolute top-5 left-5'>
+                        {/* Close button */}
+                        <TouchableOpacity onPress={onClose} className='bg-white p-4'>
                             <Text>Close</Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end' }}>
-                        <TouchableOpacity onPress={flipCamera} style={{ backgroundColor: 'white', padding: 10, margin: 12 }}>
-                            <Text>Flip Camera</Text>
-                        </TouchableOpacity>
+                    <View className='flex-1 flex flex-row justify-center align-end'>
+                        {/* Flip camera button if not on web */}
+                        { Platform.OS !== 'web' && 
+                            <TouchableOpacity onPress={flipCamera} className='bg-white p-4 m-5'>
+                                <Text>Flip Camera</Text>
+                            </TouchableOpacity>
+                        }
+                        
+                        {/* Take picture button */}
                         <TouchableOpacity 
                             onPress={async () => {
                                 if (cameraRef.current) {
-                                    const picture = await cameraRef.current.takePictureAsync();
-                                    if (picture) onPictureTaken(picture.uri);
+                                    cameraRef.current.takePictureAsync()
+                                        .then(picture => {
+                                            if (picture) onPictureTaken(picture.uri);
+                                        });
                                 }
                             }}
-                            style={{ backgroundColor: 'white', padding: 10, margin: 12 }}
+                            className='bg-white p-4 m-5'
                         >
                             <Text>Take Picture</Text>
                         </TouchableOpacity>

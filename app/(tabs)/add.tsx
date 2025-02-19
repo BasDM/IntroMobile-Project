@@ -50,12 +50,12 @@ export default function AddSighting() {
         if (Platform.OS === 'web') {
             addSighting(sighting);
         } else {
-            SaveImage(sighting.picture).then(uri => {
-                if (uri){
+            SaveImage(sighting.picture)
+                .then((uri) => {
                     sighting.picture = uri;
                     addSighting(sighting);
-                }
-            });
+                })
+                .catch((error) => console.error('Error saving image:', error));
         }
 
         // Route to details page with as previouse page the home page
