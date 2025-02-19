@@ -3,6 +3,7 @@ import { Link } from "expo-router";
 import { useEffect, useState } from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import { LoadImage } from "@/functions/Images";
+import { formatDate } from "@/functions/Dates";
 
 export default function SightingDetail(props: { sighting: Sighting }){
   const [imageUri, setImageUri] = useState<string>(props.sighting.picture);
@@ -23,7 +24,7 @@ export default function SightingDetail(props: { sighting: Sighting }){
           <Text>- {props.sighting.location.longitude}</Text>
           <Text>- {props.sighting.description}</Text>
           <Text>- {props.sighting.status}</Text>
-          <Text>- {props.sighting.dateTime.toString()}</Text>
+          <Text>- {formatDate(props.sighting.dateTime)}</Text>
           <Text>- {props.sighting.witnessContact}</Text>
           {props.sighting.picture && (
             <Image
