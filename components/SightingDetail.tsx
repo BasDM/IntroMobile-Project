@@ -27,13 +27,18 @@ export default function SightingDetail(props: { sighting: Sighting }){
             />
           )}
           <Text className="text-2xl underline">{props.sighting.id}. {props.sighting.description}</Text>
-          <Text>- {props.sighting.id}</Text>
-          <Text>- {props.sighting.witnessName}</Text>
-          <Text>- {props.sighting.location.latitude}</Text>
-          <Text>- {props.sighting.location.longitude}</Text>
-          <Text>- {props.sighting.status}</Text>
-          <Text>- {formatDate(props.sighting.dateTime)}</Text>
-          <Text>- {props.sighting.witnessContact}</Text>
+          <Text className="md:font-bold underline">Name:</Text>
+          <Text>{props.sighting.witnessName}</Text>
+          <Text className="md:font-bold underline">Latitude:</Text>
+          <Text>Latitude: {props.sighting.location.latitude}</Text>
+          <Text className="md:font-bold underline">Longitude:</Text>
+          <Text>{props.sighting.location.longitude}</Text>
+          <Text className="md:font-bold underline">Status:</Text>
+          <Text>{props.sighting.status}</Text>
+          <Text className="md:font-bold underline">Date:</Text>
+          <Text>{formatDate(props.sighting.dateTime)}</Text>
+          <Text className="md:font-bold underline">Contact:</Text>
+          <Text>{props.sighting.witnessContact}</Text>
         </View>
     </Link>
   )
