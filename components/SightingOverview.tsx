@@ -5,31 +5,39 @@ import { Image, Pressable, Text, View } from "react-native";
 import { LoadImage } from "@/functions/Images";
 import { formatDate } from "@/functions/Dates";
 
-export default function SightingDetail(props: { sighting: Sighting }){
+export default function SightingOverview(props: { sighting: Sighting }) {
   const [imageUri, setImageUri] = useState<string>(props.sighting.picture);
 
-  useEffect(() => {    
-    LoadImage(props.sighting.picture).then(uri => {
+  useEffect(() => {
+    LoadImage(props.sighting.picture).then((uri) => {
       setImageUri(String(uri));
     });
   }, [props.sighting.picture]);
 
   return (
-    <Link href={{pathname: "/detail", params: {id: props.sighting.id.toString()}}} asChild>
+    <Link
+      href={{
+        pathname: "/detail",
+        params: { id: props.sighting.id.toString() },
+      }}
+      asChild
+    >
       <Pressable>
-        <View style={{ borderWidth: 1, borderColor: "black", padding: 10, width: 400 }}>
-          <Text>- {props.sighting.witnessName}</Text>
-          <Text>- {props.sighting.description}</Text>
-          <Text>- {formatDate(props.sighting.dateTime)}</Text>
+        <View className="shadow-lg border border-gray w-auto flex rounded-xl mt-6 flex-row justify-between overflow-hidden">
+          <View className="p-5">
+            <Text className="text-2xs underline md:font-bold mb-2">{props.sighting.description}</Text>
+            <Text>{props.sighting.witnessName}</Text>
+            <Text>{formatDate(props.sighting.dateTime)}</Text>
+          </View>
           {props.sighting.picture && (
             <Image
               source={{ uri: imageUri }}
-              style={{ width: 80, height: 80 }}
+              className="w-40 h-40"
               resizeMode="cover"
             />
           )}
         </View>
       </Pressable>
     </Link>
-  )
+  );
 }
