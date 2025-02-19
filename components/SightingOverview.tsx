@@ -23,21 +23,16 @@ export default function SightingOverview(props: { sighting: Sighting }) {
       asChild
     >
       <Pressable>
-        <View
-          style={{
-            borderWidth: 1,
-            borderColor: "black",
-            padding: 10,
-            width: 400,
-          }}
-        >
-          <Text>- {props.sighting.witnessName}</Text>
-          <Text>- {props.sighting.description}</Text>
-          <Text>- {formatDate(props.sighting.dateTime)}</Text>
+        <View className="shadow-lg border border-gray w-auto flex rounded-xl mt-6 flex-row justify-between overflow-hidden">
+          <View className="p-5">
+            <Text className="text-2xs underline md:font-bold mb-2">{props.sighting.description}</Text>
+            <Text>{props.sighting.witnessName}</Text>
+            <Text>{formatDate(props.sighting.dateTime)}</Text>
+          </View>
           {props.sighting.picture && (
             <Image
               source={{ uri: imageUri }}
-              style={{ width: 80, height: 80 }}
+              className="w-40 h-40"
               resizeMode="cover"
             />
           )}

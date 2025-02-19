@@ -16,25 +16,23 @@ export default function SightingDetail(props: { sighting: Sighting }){
 
   return (
     <Link href={{pathname: "/detail", params: {id: props.sighting.id.toString()}}} asChild>
-      <Pressable>
-        <View style={{ borderWidth: 1, borderColor: "black", padding: 10, width: 400 }}>
+        <View className="shadow-lg border border-gray p-10 w-auto h-auto flex rounded-xl mt-6">
+          {props.sighting.picture && (
+            <Image
+              source={{ uri: imageUri }}
+              className="w-80 h-80 m-auto"
+              resizeMode="cover"
+            />
+          )}
+          <Text className="text-2xl underline">{props.sighting.id}. {props.sighting.description}</Text>
           <Text>- {props.sighting.id}</Text>
           <Text>- {props.sighting.witnessName}</Text>
           <Text>- {props.sighting.location.latitude}</Text>
           <Text>- {props.sighting.location.longitude}</Text>
-          <Text>- {props.sighting.description}</Text>
           <Text>- {props.sighting.status}</Text>
           <Text>- {formatDate(props.sighting.dateTime)}</Text>
           <Text>- {props.sighting.witnessContact}</Text>
-          {props.sighting.picture && (
-            <Image
-              source={{ uri: imageUri }}
-              style={{ width: 80, height: 80 }}
-              resizeMode="cover"
-            />
-          )}
         </View>
-      </Pressable>
     </Link>
   )
 }
