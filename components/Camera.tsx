@@ -38,16 +38,16 @@ export default function Camera({ onPictureTaken, onClose }: { onPictureTaken: (p
                 ref={cameraRef}
             >
                 <View className='flex-1'>
-                    <View className='absolute top-5 left-5'>
+                    <View className='absolute top-5 left-5 z-20'>
                         {/* Close button */}
-                        <TouchableOpacity onPress={onClose} className='bg-white p-4'>
+                        <TouchableOpacity onPress={onClose} className='bg-white p-4 rounded-full z-20'>
                             <Text>Close</Text>
                         </TouchableOpacity>
                     </View>
-                    <View className='flex-1 flex flex-row justify-center align-end'>
+                    <View className='flex-1 flex flex-row justify-center items-end'>
                         {/* Flip camera button if not on web */}
-                        { Platform.OS !== 'web' && 
-                            <TouchableOpacity onPress={flipCamera} className='bg-white p-4 m-5'>
+                        {Platform.OS !== 'web' && 
+                            <TouchableOpacity onPress={flipCamera} className='bg-white p-4 m-5 rounded-full'>
                                 <Text>Flip Camera</Text>
                             </TouchableOpacity>
                         }
@@ -62,7 +62,7 @@ export default function Camera({ onPictureTaken, onClose }: { onPictureTaken: (p
                                         });
                                 }
                             }}
-                            className='bg-white p-4 m-5'
+                            className='bg-white p-4 m-5 rounded-full'
                         >
                             <Text>Take Picture</Text>
                         </TouchableOpacity>
