@@ -4,8 +4,10 @@ import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
 import "leaflet/dist/leaflet.css" 
 import L from 'leaflet';
 import { Sighting } from '@/types';
+import { useRouter } from 'expo-router';
 
 export default function Map({ markers } : { markers: Sighting[] }) {
+    const router = useRouter();
     const iconX = L.icon({
       iconUrl: 'https://raw.githubusercontent.com/similonap/public_icons/refs/heads/main/location-pin.png',
       iconSize: [48, 48],
@@ -28,8 +30,10 @@ export default function Map({ markers } : { markers: Sighting[] }) {
             {   markers && 
                 markers.map((marker, index) => (
                     <Marker key={index} position={[marker.location.latitude, marker.location.longitude]} icon={iconX}>
-                        <Popup >
-                            <div style={{backgroundColor: 'white', padding: 10, width: 100}}>
+                        <Popup>
+                            <div 
+                                style={{backgroundColor: 'white', padding: 10, width: 100}}
+                                onClick={() => router.push({pathname: '/detail', params: { id: marker.id.toString() }})} >
                                 <p>{marker.description}</p>
                             </div>
                         </Popup>
