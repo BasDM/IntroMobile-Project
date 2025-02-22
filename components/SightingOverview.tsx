@@ -26,7 +26,7 @@ export default function SightingOverview(props: { sighting: Sighting }) {
     >
       <Pressable>
         <View className="shadow-lg border border-gray w-auto flex rounded-xl mt-6 flex-row justify-between overflow-hidden">
-          <View className="p-5">
+          <View className="p-5 flex-1">
             <Text className="text-2xs underline md:font-bold mb-2">{props.sighting.description}</Text>
             <Text>{props.sighting.witnessName}</Text>
             <Text>{formatDate(props.sighting.dateTime)}</Text>
