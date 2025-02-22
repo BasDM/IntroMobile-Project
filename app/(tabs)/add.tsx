@@ -29,12 +29,21 @@ export default function AddSighting() {
     // Input change handler
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        if(name === 'date'){
+        if (name === 'date') {
             setSighting(prev => ({
                 ...prev,
                 dateTime: new Date(value),
             }));
             setDate(value);
+        } else if (name === 'latitude' || name === 'longitude') {
+            const parsedValue = parseFloat(value);
+            setSighting(prev => ({
+                ...prev,
+                location: {
+                    ...prev.location,
+                    [name]: isNaN(parsedValue) ? 0 : parsedValue,
+                },
+            }));
         } else {
             setSighting(prev => ({
                 ...prev,
