@@ -6,6 +6,7 @@ import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { Platform, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import  DatePicker  from '@/components/DatePicker';
 
 export default function AddSighting() {
     const { sightings, addSighting } = useSightings();
@@ -103,12 +104,7 @@ export default function AddSighting() {
                 {/* Date */}
                 <View>
                     <Text>Date:</Text>
-                    <TextInput
-                        value={date}
-                        onChangeText={text => handleChange({ target: { name: 'date', value: text } } as any)}
-                        placeholder="YYYY-MM-DD"
-                        className="border border-gray-300 bg-white rounded p-2"
-                    />
+                    <DatePicker/>
                 </View>
 
                 {/* Description */}
