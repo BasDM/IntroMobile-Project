@@ -9,11 +9,11 @@ export default function TabLayout() {
             <Ionicons name="home" color={color} size={size} />
         )}} 
       />
-      <Tabs.Screen name="map" options={{ title: "Home", tabBarIcon: ({ color, size }) => (
+      <Tabs.Screen name="map" options={{ title: "Map", tabBarIcon: ({ color, size }) => (
             <Ionicons name="map" color={color} size={size} />
         )}} 
       />
-      <Tabs.Screen name="add" options={{ title: "Home", tabBarIcon: ({ color, size }) => (
+      <Tabs.Screen name="add" options={{ title: "Add", tabBarIcon: ({ color, size }) => (
             <Ionicons name="add-circle" color={color} size={size} />
         )}} 
       />
