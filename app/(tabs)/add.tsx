@@ -104,7 +104,10 @@ export default function AddSighting() {
                 {/* Date */}
                 <View>
                     <Text>Date:</Text>
-                    <DatePicker/>
+                    <DatePicker
+                        selectedDate={sighting.dateTime}
+                        onDateChange={(date) => setSighting(prev => ({ ...prev, dateTime: date }))}
+                    />
                 </View>
 
                 {/* Description */}
