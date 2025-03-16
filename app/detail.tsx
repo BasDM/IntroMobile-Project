@@ -7,11 +7,9 @@ import { FlatList } from "react-native-gesture-handler";
 
 export default function Index() {
   const { sightings } = useSightings();
-  console.log(sightings);
   const params = useLocalSearchParams<{ id: string }>();
   const numericId = parseInt(params.id, 10);
   const details = sightings.filter((sighting) => sighting.id === numericId);
-  console.log(details);
   return (
     <View
       style={{

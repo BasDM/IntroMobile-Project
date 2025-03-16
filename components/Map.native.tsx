@@ -1,8 +1,10 @@
 import MapView, { Marker } from 'react-native-maps';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { Sighting } from '@/types';
+import { useRouter } from 'expo-router';
 
 export default function Map({ markers } : { markers: Sighting[] }) {
+  const router = useRouter();
   return (
     <View style={styles.container}>
       <MapView
@@ -21,6 +23,7 @@ export default function Map({ markers } : { markers: Sighting[] }) {
               coordinate={marker.location}
               title={"Sighting: " + marker.id}
               description={marker.description}
+              onPress={() => router.push({pathname: '/detail', params: { id: marker.id.toString() }})}
             />
           ))
         }
@@ -38,5 +41,5 @@ const styles = StyleSheet.create({
   map: {
     width: '100%',
     height: '100%',
-  },
+  }
 });
