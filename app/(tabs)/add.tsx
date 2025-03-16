@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { Platform, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import  DatePicker  from '@/components/DatePicker';
+import LocationPicker from '@/components/LocationPicker';
 
 export default function AddSighting() {
     const { sightings, addSighting } = useSightings();
@@ -160,6 +161,10 @@ export default function AddSighting() {
                 {/* Location */}
                 <View className="p-2 border border-gray-300 rounded">
                     <Text className="text-lg font-semibold mb-2">Location</Text>
+                    <LocationPicker sighting={sighting} setSighting={setSighting} />
+                </View>
+                {/* <View className="p-2 border border-gray-300 rounded">
+                    <Text className="text-lg font-semibold mb-2">Location</Text>
                     <View className='flex flex-row justify-between gap-2 mb-4'>
                         <View className='w-[49%]'>
                             <Text>Latitude:</Text>
@@ -182,7 +187,7 @@ export default function AddSighting() {
                             />
                         </View>
                     </View>
-                </View>
+                </View> */}
 
                 {/* Witness Information */}
                 <View className="p-2 border border-gray-300 rounded">

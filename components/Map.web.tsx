@@ -16,9 +16,9 @@ export default function Map({ markers } : { markers: Sighting[] }) {
   
     return (
         <MapContainer
-            center={[50, 4] as [number, number]}
+            center={[50, 4]}
             zoom={4}
-            scrollWheelZoom={false}
+            scrollWheelZoom={true}
             style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
             attributionControl={false}
         >
