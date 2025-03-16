@@ -34,7 +34,13 @@ export default function Map({ markers } : { markers: Sighting[] }) {
                             <div 
                                 style={{backgroundColor: 'white', padding: 10, width: 100}}
                                 onClick={() => router.push({pathname: '/detail', params: { id: marker.id.toString() }})} >
-                                <p>{marker.description}</p>
+                                <img src={marker.picture} alt="ufo image" />
+                                <p>
+                                    {marker.description.length > 30 
+                                        ? `${marker.description.substring(0, 30)}...` 
+                                        : marker.description}
+                                    <a href="#" onClick={() => router.push({pathname: '/detail', params: { id: marker.id.toString() }})}> view more</a>
+                                </p>
                             </div>
                         </Popup>
                     </Marker>
