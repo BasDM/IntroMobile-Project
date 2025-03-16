@@ -8,7 +8,6 @@ export default function Index() {
   const { sightings } = useSightings();
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
       <View
         style={{
           flex: 1,
@@ -18,13 +17,12 @@ export default function Index() {
         }}
       >
         <FlatList
-          className="self-center"
+          className="self-center w-full"
           data={sightings}
           renderItem={({ item }) => (
         <SightingOverview sighting={item} />
           )}
         />
       </View>
-    </GestureHandlerRootView>
   );
 }

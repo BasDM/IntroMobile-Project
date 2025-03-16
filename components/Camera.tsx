@@ -34,7 +34,7 @@ export default function Camera({ onPictureTaken, onClose }: { onPictureTaken: (p
         <View className='flex-1 '>
             <CameraView
                 facing={facing === "back" ? "back" : "front"}
-                className='flex-1'
+                style={{flex: 1}}
                 ref={cameraRef}
             >
                 <View className='flex-1'>
