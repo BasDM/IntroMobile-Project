@@ -55,6 +55,9 @@ export default function AddSighting() {
 
     // Submit
     const handleSubmit = () => {
+        // Validate input
+        if (!sighting.description || !sighting.picture || !sighting.witnessName || !sighting.witnessContact) return alert('Please fill in all fields');
+
         // Get last id
         const lastId = sightings.reduce((acc, sighting) => sighting.id > acc ? sighting.id : acc, 0);
         sighting.id = lastId + 1;
